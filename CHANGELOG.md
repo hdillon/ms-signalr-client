@@ -1,3 +1,7 @@
+## 2.2.8
+
+- added jquery 3 support
+
 ## 2.2.5 (2016-07-29)
 
 - Removed version numbers from SignalR js files to prevent breaking references when updating

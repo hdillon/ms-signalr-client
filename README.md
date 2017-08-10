@@ -1,9 +1,11 @@
 # ms-signalr-client
-## Unofficial package for the SignalR JS Client
+## Unofficial package for the SignalR JS Client with jquery 3.x support
 
-This is a package for Microsoft's [ASP.NET SignalR JavaScript Library](https://github.com/SignalR/SignalR/wiki/SignalR-JS-Client).
+This is a package for Microsoft's [ASP.NET SignalR JavaScript Library](https://github.com/SignalR/SignalR/wiki/SignalR-JS-Client)
+with slight modifications to support jquery 3.x [details here](https://github.com/SignalR/SignalR/compare/dev...PaulGiletich:dev)
+(a fork of https://github.com/dfrencham/ms-signalr-client)
 
-Current packaged version is **v2.2.2-pre**.
+Current base signalR client version is **v2.2.2-pre**.
 
 ### Usage
 
@@ -66,14 +68,10 @@ Tests will be run using:
 
 The build number is a little ahead of the offical jquery.signalr repo. This is due to fixes to this package requiring a package version bump.
 
-### Problems
-
-If you have problems with this package, log them on [the bug tracker](https://github.com/dfrencham/ms-signalr-client/issues). If you have issues with the jquery.signalr library, go to the [SignalR bug tracker](https://github.com/SignalR/SignalR/issues).
-
 ### Licence Information
 
 As per the following:
 
 - All client code is Copyright (C) Microsoft Corporation. All rights reserved.
 
-I make no claims on this code, but I have kindly packaged it up for you. :)
+I make no claims on this code

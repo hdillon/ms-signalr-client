@@ -1,10 +1,11 @@
 {
-  "name": "ms-signalr-client",
-  "description": "packaged version of the Microsoft Javascript SignalR client",
-  "version": "2.2.7",
+  "name": "ms-signalr-client-jquery-3",
+  "description": "packaged version of the Microsoft Javascript SignalR client with slight modifications for jquery 3.x support",
+  "version": "2.2.8",
   "main": "jquery.signalR.js",
   "keywords": [
-    "signalr"
+    "signalr",
+    "jquery 3"
   ],
   "licenses": [
     {
@@ -12,20 +13,21 @@
       "url": "http://www.apache.org/licenses/LICENSE-2.0"
     }
   ],
-  "homepage": "https://github.com/dfrencham/ms-signalr-client",
+  "homepage": "https://github.com/paulgiletich/ms-signalr-client",
   "bugs": {
-    "url": "https://github.com/dfrencham/ms-signalr-client/issues"
+    "url": "https://github.com/paulgiletich/ms-signalr-client/issues"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/dfrencham/ms-signalr-client"
+    "url": "https://github.com/paulgiletich/ms-signalr-client"
   },
-  "author": "Danny Frencham (https://diydeveloper.io)",
+  "author": "Danny Frencham (https://diydeveloper.io), Paul Giletich (paul.giletich@gmail.com)",
   "contributors": [
-    "Danny Frencham (https://diydeveloper.io)"
+    "Danny Frencham (https://diydeveloper.io)",
+    "Paul Giletich (paul.giletich@gmail.com)"
   ],
   "dependencies": {
-    "jquery": "^2.2.0"
+    "jquery": "3.x.x"
   },
   "jspm": {
     "format": "global",
@@ -47,7 +49,7 @@
   "devDependencies": {
     "chai": "^2.2.0",
     "gulp": "^3.8.11",
-    "jquery": "^2.1.3",
+    "jquery": "3.x.x",
     "mocha": "^2.5.3",
     "mocha-phantomjs-core": "^1.3.1",
     "phantomjs": "^2.1.7"
