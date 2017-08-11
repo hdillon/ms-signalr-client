@@ -2,12 +2,20 @@
 ## Unofficial package for the SignalR JS Client with jquery 3.x support
 
 This is a package for Microsoft's [ASP.NET SignalR JavaScript Library](https://github.com/SignalR/SignalR/wiki/SignalR-JS-Client)
-with slight modifications to support jquery 3.x [details here](https://github.com/SignalR/SignalR/compare/dev...PaulGiletich:dev)
+with slight [modifications](https://github.com/SignalR/SignalR/compare/dev...PaulGiletich:dev) to support jquery 3.x
+
+
 (a fork of https://github.com/dfrencham/ms-signalr-client)
 
 Current base signalR client version is **v2.2.2-pre**.
 
 ### Usage
+
+
+```
+npm install --save ms-signalr-client-jquery-3
+```
+
 
 Include the library in your page using one of the following methods:
 
@@ -15,14 +23,14 @@ Include the library in your page using one of the following methods:
 
 ```
 import $ from 'jquery';
-import 'ms-signalr-client';
+import 'ms-signalr-client-jquery-3';
 ```
 
 #### require JS
 
 ```
 require('jquery');
-require('ms-signalr-client');
+require('ms-signalr-client-jquery-3');
 ```
 
 #### HTML
