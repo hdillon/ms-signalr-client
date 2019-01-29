@@ -249,3 +249,5 @@ node_modules
 
 # jspm packages
 jspm_packages
+
+.idea

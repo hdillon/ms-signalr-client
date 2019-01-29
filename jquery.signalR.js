@@ -102,7 +102,7 @@
 
         supportsKeepAlive = function (connection) {
             return connection._.keepAliveData.activated &&
-                   connection.transport.supportsKeepAlive(connection);
+                connection.transport.supportsKeepAlive(connection);
         },
 
         configureStopReconnectingTimeout = function (connection) {
@@ -470,7 +470,7 @@
                 connection._.deferredStartHandler = function () {
                     connection.start(options, callback);
                 };
-                _pageWindow.on("load", connection._.deferredStartHandler);
+                _pageWindow.bind("load", connection._.deferredStartHandler);
 
                 return deferred.promise();
             }
@@ -479,8 +479,8 @@
             if (connection.state === signalR.connectionState.connecting) {
                 return deferred.promise();
             } else if (changeState(connection,
-                            signalR.connectionState.disconnected,
-                            signalR.connectionState.connecting) === false) {
+                signalR.connectionState.disconnected,
+                signalR.connectionState.connecting) === false) {
                 // We're not connecting so try and transition into connecting.
                 // If we fail to transition then we're either in connected or reconnecting.
 
@@ -549,7 +549,7 @@
 
             connection.ajaxDataType = config.jsonp ? "jsonp" : "text";
 
-            $(connection).on(events.onStart, function (e, data) {
+            $(connection).bind(events.onStart, function (e, data) {
                 if ($.type(callback) === "function") {
                     callback.call(connection);
                 }
@@ -611,8 +611,8 @@
                         signalR._.configurePingInterval(connection);
 
                         if (!changeState(connection,
-                                            signalR.connectionState.connecting,
-                                            signalR.connectionState.connected)) {
+                            signalR.connectionState.connecting,
+                            signalR.connectionState.connected)) {
                             connection.log("WARNING! The connection was not in the connecting state.");
                         }
 
@@ -622,7 +622,7 @@
                         $(connection).triggerHandler(events.onStart);
 
                         // wire the stop handler for when the user leaves the page
-                        _pageWindow.on("unload", function () {
+                        _pageWindow.bind("unload", function () {
                             connection.log("Window unloading, stopping the connection.");
 
                             connection.stop(asyncAbort);
@@ -631,7 +631,7 @@
                         if (isFirefox11OrGreater) {
                             // Firefox does not fire cross-domain XHRs in the normal unload handler on tab close.
                             // #2400
-                            _pageWindow.on("beforeunload", function () {
+                            _pageWindow.bind("beforeunload", function () {
                                 // If connection.stop() runs runs in beforeunload and fails, it will also fail
                                 // in unload unless connection.stop() runs after a timeout.
                                 window.setTimeout(function () {
@@ -763,7 +763,7 @@
             /// <param name="callback" type="Function">A callback function to execute before the connection is fully instantiated.</param>
             /// <returns type="signalR" />
             var connection = this;
-            $(connection).on(events.onStarting, function (e, data) {
+            $(connection).bind(events.onStarting, function (e, data) {
                 callback.call(connection);
             });
             return connection;
@@ -795,7 +795,7 @@
             /// <param name="callback" type="Function">A callback function to execute when any data is received on the connection</param>
             /// <returns type="signalR" />
             var connection = this;
-            $(connection).on(events.onReceived, function (e, data) {
+            $(connection).bind(events.onReceived, function (e, data) {
                 callback.call(connection, data);
             });
             return connection;
@@ -806,7 +806,7 @@
             /// <param name="callback" type="Function">A callback function to execute when the connection state changes</param>
             /// <returns type="signalR" />
             var connection = this;
-            $(connection).on(events.onStateChanged, function (e, data) {
+            $(connection).bind(events.onStateChanged, function (e, data) {
                 callback.call(connection, data);
             });
             return connection;
@@ -817,7 +817,7 @@
             /// <param name="callback" type="Function">A callback function to execute when an error occurs on the connection</param>
             /// <returns type="signalR" />
             var connection = this;
-            $(connection).on(events.onError, function (e, errorData, sendData) {
+            $(connection).bind(events.onError, function (e, errorData, sendData) {
                 connection.lastError = errorData;
                 // In practice 'errorData' is the SignalR built error object.
                 // In practice 'sendData' is undefined for all error events except those triggered by
@@ -832,7 +832,7 @@
             /// <param name="callback" type="Function">A callback function to execute when the connection is broken</param>
             /// <returns type="signalR" />
             var connection = this;
-            $(connection).on(events.onDisconnect, function (e, data) {
+            $(connection).bind(events.onDisconnect, function (e, data) {
                 callback.call(connection);
             });
             return connection;
@@ -843,7 +843,7 @@
             /// <param name="callback" type="Function">A callback function to execute when the connection is slow</param>
             /// <returns type="signalR" />
             var connection = this;
-            $(connection).on(events.onConnectionSlow, function (e, data) {
+            $(connection).bind(events.onConnectionSlow, function (e, data) {
                 callback.call(connection);
             });
 
@@ -855,7 +855,7 @@
             /// <param name="callback" type="Function">A callback function to execute when the connection enters a reconnecting state</param>
             /// <returns type="signalR" />
             var connection = this;
-            $(connection).on(events.onReconnecting, function (e, data) {
+            $(connection).bind(events.onReconnecting, function (e, data) {
                 callback.call(connection);
             });
             return connection;
@@ -866,7 +866,7 @@
             /// <param name="callback" type="Function">A callback function to execute when the connection is restored</param>
             /// <returns type="signalR" />
             var connection = this;
-            $(connection).on(events.onReconnect, function (e, data) {
+            $(connection).bind(events.onReconnect, function (e, data) {
                 callback.call(connection);
             });
             return connection;
@@ -884,7 +884,7 @@
             // Verify that we've bound a load event.
             if (connection._.deferredStartHandler) {
                 // Unbind the event.
-                _pageWindow.off("load", connection._.deferredStartHandler);
+                _pageWindow.unbind("load", connection._.deferredStartHandler);
             }
 
             // Always clean up private non-timeout based state.
@@ -950,9 +950,9 @@
 
             // Clear out our message buffer
             connection._.connectingMessageBuffer.clear();
-            
+
             // Clean up this event
-            $(connection).off(events.onStart);
+            $(connection).unbind(events.onStart);
 
             // Trigger the disconnect event
             changeState(connection, connection.state, signalR.connectionState.disconnected);
@@ -1546,7 +1546,7 @@
                 };
 
                 // Update Keep alive on reconnect
-                $(connection).on(events.onReconnect, connection._.keepAliveData.reconnectKeepAliveUpdate);
+                $(connection).bind(events.onReconnect, connection._.keepAliveData.reconnectKeepAliveUpdate);
 
                 connection.log("Now monitoring keep alive with a warning timeout of " + keepAliveData.timeoutWarning + ", keep alive timeout of " + keepAliveData.timeout + " and disconnecting timeout of " + connection.disconnectTimeout);
             } else {
@@ -1563,7 +1563,7 @@
                 keepAliveData.monitoring = false;
 
                 // Remove the updateKeepAlive function from the reconnect event
-                $(connection).off(events.onReconnect, connection._.keepAliveData.reconnectKeepAliveUpdate);
+                $(connection).unbind(events.onReconnect, connection._.keepAliveData.reconnectKeepAliveUpdate);
 
                 // Clear all the keep alive data
                 connection._.keepAliveData = {};
@@ -1591,13 +1591,13 @@
 
         isConnectedOrReconnecting: function (connection) {
             return connection.state === signalR.connectionState.connected ||
-                   connection.state === signalR.connectionState.reconnecting;
+                connection.state === signalR.connectionState.reconnecting;
         },
 
         ensureReconnectingState: function (connection) {
             if (changeState(connection,
-                        signalR.connectionState.connected,
-                        signalR.connectionState.reconnecting) === true) {
+                signalR.connectionState.connected,
+                signalR.connectionState.reconnecting) === true) {
                 $(connection).triggerHandler(events.onReconnecting);
             }
             return connection.state === signalR.connectionState.reconnecting;
@@ -1710,7 +1710,7 @@
                         ex,
                         connection.socket
                     ),
-                    data]);
+                        data]);
             }
         },
 
@@ -1745,8 +1745,8 @@
                     transportLogic.clearReconnectTimeout(connection);
 
                     if (changeState(connection,
-                                    signalR.connectionState.reconnecting,
-                                    signalR.connectionState.connected) === true) {
+                        signalR.connectionState.reconnecting,
+                        signalR.connectionState.connected) === true) {
                         $connection.triggerHandler(events.onReconnect);
                     }
                 };
@@ -1903,16 +1903,16 @@
 
             if (reconnecting) {
                 connection._.reconnectAttemptTimeoutHandle = window.setTimeout(function () {
-                    if (opened === false) {
-                        // If we're reconnecting and the event source is attempting to connect,
-                        // don't keep retrying. This causes duplicate connections to spawn.
-                        if (connection.eventSource.readyState !== window.EventSource.OPEN) {
-                            // If we were reconnecting, rather than doing initial connect, then try reconnect again
-                            that.reconnect(connection);
+                        if (opened === false) {
+                            // If we're reconnecting and the event source is attempting to connect,
+                            // don't keep retrying. This causes duplicate connections to spawn.
+                            if (connection.eventSource.readyState !== window.EventSource.OPEN) {
+                                // If we were reconnecting, rather than doing initial connect, then try reconnect again
+                                that.reconnect(connection);
+                            }
                         }
-                    }
-                },
-                that.timeOut);
+                    },
+                    that.timeOut);
             }
 
             connection.eventSource.addEventListener("open", function (e) {
@@ -1925,8 +1925,8 @@
                     opened = true;
 
                     if (changeState(connection,
-                                         signalR.connectionState.reconnecting,
-                                         signalR.connectionState.connected) === true) {
+                        signalR.connectionState.reconnecting,
+                        signalR.connectionState.connected) === true) {
                         $connection.triggerHandler(events.onReconnect);
                     }
                 }
@@ -2319,8 +2319,8 @@
                     privateData.reconnectTimeoutId = null;
 
                     if (changeState(instance,
-                                    signalR.connectionState.reconnecting,
-                                    signalR.connectionState.connected) === true) {
+                        signalR.connectionState.reconnecting,
+                        signalR.connectionState.connected) === true) {
                         // Successfully reconnected!
                         instance.log("Raising the reconnect event");
                         $(instance).triggerHandler(events.onReconnect);
@@ -2639,7 +2639,7 @@
                 callback.apply(that, data);
             };
 
-            $(that).on(makeEventName(eventName), callbackMap[eventName][callback]);
+            $(that).bind(makeEventName(eventName), callbackMap[eventName][callback]);
 
             return that;
         },
@@ -2661,7 +2661,7 @@
             if (callbackSpace) {
                 // Only unbind if there's an event bound with eventName and a callback with the specified callback
                 if (callbackSpace[callback]) {
-                    $(that).off(makeEventName(eventName), callbackSpace[callback]);
+                    $(that).unbind(makeEventName(eventName), callbackSpace[callback]);
 
                     // Remove the callback from the callback map
                     delete callbackSpace[callback];
@@ -2671,7 +2671,7 @@
                         delete callbackMap[eventName];
                     }
                 } else if (!callback) { // Check if we're removing the whole event and we didn't error because of an invalid callback
-                    $(that).off(makeEventName(eventName));
+                    $(that).unbind(makeEventName(eventName));
 
                     delete callbackMap[eventName];
                 }
